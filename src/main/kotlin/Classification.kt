@@ -1,0 +1,1 @@
+data class Classification(val predictedClass: Int, val outputs: List<Double>)
