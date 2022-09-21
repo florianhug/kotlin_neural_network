@@ -1,14 +1,19 @@
+import datasource.DataPoints.toDataPoint
 import datasource.mnist.MnistCompressedReader
 import datasource.mnist.MnistDecompressedReader
 import datasource.mnist.MnistEntry
 
 fun main() {
     println("Hello Neural Network, please don't exterminate all hoomans")
-    val trainingData = loadTrainingData()
+    val trainingData: List<MnistEntry> = loadTrainingData()
+    val dataPoints = trainingData.take(6000).map { it.toDataPoint(10) } //FIXME: Calculate number of labels
 
-    val network = NeuralNetwork(listOf(784,300,10))
-    val classification = network.classify(trainingData.first().getImageData())
-    println(classification)
+    val network = NeuralNetwork(listOf(784, 300, 10))
+    network.learn(dataPoints, 0.05)
+    trainingData.take(10)
+//        .map { it.getImageData() }
+        .forEach { it -> println("${it.label.toInt()} ${network.classify(it.getImageData())}") }
+//        .forEach { println(it) }
 }
 
 fun loadTrainingData(): List<MnistEntry> {

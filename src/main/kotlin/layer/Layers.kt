@@ -9,7 +9,12 @@ import kotlin.random.Random
 internal object Layers {
     private val random: Random = Random(6314)
 
-    fun randomlyInitializeWeights(numberOfWeights: Int, nodesIn: Int): Array<Double> = Array(numberOfWeights) {
+    fun <T> Array<T>.getWeight(nodeIn: Int, nodesIn: Int, nodeOut: Int): T {
+        val index = nodeOut * nodesIn + nodeIn
+        return this[index]
+    }
+
+    fun randomlyInitializeWeights(nodesIn: Int, nodesOut: Int): Array<Double> = Array(nodesIn*nodesOut) {
         randomInNormalDistribution() / sqrt(nodesIn.toDouble())
     }
 
